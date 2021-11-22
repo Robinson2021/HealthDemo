@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Health Sample</string>
+    <string name="reports">Reports</string>
+    <string name="october_6_to_october_12">Oct 6 to Oct 12</string>
+    <string name="steps">Steps</string>
+    <string name="total">Total</string>
+    <string name="_0">0</string>
+    <string name="bpm">BPM</string>
+    <string name="today">Today</string>
+    <string name="heart_rate">Heart rate</string>
+    <string name="week">Week</string>
+    <string name="history">History</string>
+    <string name="runtime">Run time</string>
+    <string name="jog">Jog</string>
+    <string name="run">Run</string>
+    <string name="climb">Climb</string>
+</resources>

@@ -1,0 +1,186 @@
+ private fun setGroupBarChart() {
+        // creating a new bar data set.
+
+        val xAxis: XAxis = barChart.xAxis
+        xAxis.setCenterAxisLabels(true)
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.setDrawGridLines(true)
+        xAxis.granularity = 1f // only intervals of 1 day
+        xAxis.textColor = Color.BLACK
+        xAxis.textSize = 12f
+        xAxis.axisLineColor = Color.WHITE
+        xAxis.axisMinimum = 0f
+        xAxis.valueFormatter = IndexAxisValueFormatter(days)
+
+
+        val leftAxis: YAxis = barChart.axisLeft
+        leftAxis.textColor = Color.BLACK
+        leftAxis.textSize = 12f
+        leftAxis.axisLineColor = Color.WHITE
+        leftAxis.setDrawGridLines(false)
+        leftAxis.granularity = 1f
+        //  leftAxis.setLabelCount(days.size-1, true)
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART)
+
+        barChart.axisRight.isEnabled = false
+        barChart.legend.isEnabled = true
+
+        //set space between legend and axis
+        barChart.setExtraOffsets(5f, 5f, 5f, 15f)
+
+        val barDataSet1 = BarDataSet(getRunBarEntries(), "Run")
+        barDataSet1.color = ContextCompat.getColor(requireContext(), R.color.jog)
+
+        val barDataSet2 = BarDataSet(getWeightBarEntries(), "Weight")
+        barDataSet1.color = ContextCompat.getColor(requireContext(), R.color.run)
+
+        // below line is to add bar data set to our bar data.
+        val data = BarData(barDataSet1, barDataSet2)
+        // after adding data to our bar data we
+        // are setting that data to our bar chart.
+        barChart.data = data
+
+        val groupSpace = 0.4f
+        val barSpace = 0f
+        val barWidth = 0.3f
+        // (barSpace + barWidth) * 2 + groupSpace = 1
+        data.barWidth = barWidth
+        // so that the entire chart is shown when scrolled from right to left
+        // so that the entire chart is shown when scrolled from right to left
+        //    xAxis.axisMaximum = days.size - 1.1f
+
+        // barChart.setDrawBarShadow(false)
+        barChart.description.isEnabled = false
+        //   barChart.setPinchZoom(false)
+        //   barChart.setDrawGridBackground(false)
+        // empty labels so that the names are spread evenly
+
+        // below line is to make our
+        // bar chart as draggable.
+        barChart.isDragEnabled = true
+
+        barChart.isScrollContainer = true
+        barChart.isHorizontalScrollBarEnabled = true
+        //    barChart.isScaleXEnabled = true
+
+        barChart.setTouchEnabled(false)
+        // barChart.setScaleEnabled(false)
+
+        barChart.setVisibleXRangeMaximum(20f)
+        barChart.moveViewToX(5F)
+        barChart.groupBars(0f, groupSpace, barSpace)
+
+        //add animation
+        barChart.animateY(3000)
+        //  barChart.animateX(3000)
+
+        barChart.invalidate()
+
+    }
+
+
+    // array list for first set
+    private fun getRunBarEntries(): ArrayList<BarEntry> {
+        // creating a new array list
+        val barEntries: ArrayList<BarEntry> = ArrayList()
+        // adding new entry to our array list with bar
+        // entry and passing x and y axis value to it.
+        barEntries.add(BarEntry(1f, 4F))
+        barEntries.add(BarEntry(2f, 6F))
+        barEntries.add(BarEntry(3f, 8F))
+        barEntries.add(BarEntry(4f, 2F))
+        barEntries.add(BarEntry(5f, 4F))
+        barEntries.add(BarEntry(6f, 1F))
+        barEntries.add(BarEntry(7f, 10F))
+        return barEntries
+    }
+
+    // array list for second set.
+    private fun getWeightBarEntries(): ArrayList<BarEntry> {
+        // creating a new array list
+        val barEntries: ArrayList<BarEntry> = ArrayList()
+        // adding new entry to our array list with bar
+        // entry and passing x and y axis value to it.
+        barEntries.add(BarEntry(1f, 8F))
+        barEntries.add(BarEntry(2f, 12F))
+        barEntries.add(BarEntry(3f, 4F))
+        barEntries.add(BarEntry(4f, 1F))
+        barEntries.add(BarEntry(5f, 7F))
+        barEntries.add(BarEntry(6f, 3F))
+        barEntries.add(BarEntry(7f, 15F))
+        return barEntries
+    }
+
+    private fun setBarChart() {
+        //https://intensecoder.com/bar-chart-tutorial-in-android-using-kotlin/
+        scoreList = getScoreList()
+        initBarChart()
+        //now draw bar chart with dynamic data
+        val entries: ArrayList<BarEntry> = ArrayList()
+        //you can replace this data object with  your custom object
+        for (i in scoreList.indices) {
+            val score = scoreList[i]
+            entries.add(BarEntry(i.toFloat(), score.score.toFloat()))
+        }
+
+        val barDataSet = BarDataSet(entries, "")
+        barDataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
+
+        val data = BarData(barDataSet)
+        barChart.data = data
+
+        barChart.invalidate()
+    }
+
+    private fun initBarChart() {
+//        hide grid lines
+        barChart.axisLeft.setDrawGridLines(false)
+        val xAxis: XAxis = barChart.xAxis
+        xAxis.setDrawGridLines(false)
+        xAxis.setDrawAxisLine(false)
+        //remove right y-axis
+        barChart.axisRight.isEnabled = false
+
+        //remove legend
+        barChart.legend.isEnabled = false
+
+
+        //remove description label
+        barChart.description.isEnabled = false
+
+
+        //add animation
+        barChart.animateY(3000)
+
+        // to draw label on xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM_INSIDE
+        xAxis.valueFormatter = MyAxisFormatter()
+        xAxis.setDrawLabels(true)
+        xAxis.granularity = 1f
+        xAxis.labelRotationAngle = +90f
+
+    }
+
+    inner class MyAxisFormatter : IndexAxisValueFormatter() {
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+            val index = value.toInt()
+            //    Log.d("TAG", "getAxisLabel: index $index")
+            return if (index < scoreList.size) {
+                scoreList[index].name
+            } else {
+                ""
+            }
+        }
+    }
+
+    // simulate api call
+    // we are initialising it directly
+    private fun getScoreList(): ArrayList<Score> {
+        scoreList.add(Score("John", 56))
+        scoreList.add(Score("Rey", 75))
+        scoreList.add(Score("Steve", 85))
+        scoreList.add(Score("Kevin", 45))
+        scoreList.add(Score("Jeff", 63))
+
+        return scoreList
+    }

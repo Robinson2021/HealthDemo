@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#62a2fc</color>
+    <color name="colorPrimaryDark">#62a2fc</color>
+    <color name="colorAccent">#62a2fc</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorPrimaryLight">#B2DFDB</color>
+    <color name="colorSecondaryText">#757575</color>
+
+
+    <color name="grey">#cccccc</color>
+    <color name="textColor">#cccccc</color>
+    <color name="transparent">#00ffffff</color>
+    <color name="logo_color">#FFC000</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="jog">#62a2fc</color>
+    <color name="run">#fe9f31</color>
+    <color name="climb">#6990c7</color>
+    <color name="red">#F44336</color>
+
+
+
+
+</resources>
